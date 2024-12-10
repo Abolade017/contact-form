@@ -1,5 +1,10 @@
 import { FormEvent, useState } from "react";
+import { FaCheck } from "react-icons/fa";
+//@ts-ignore
+import { useAlert } from "react-alert";
+
 import "./App.css";
+
 function App() {
   interface InputFields {
     firstname: string;
@@ -57,11 +62,14 @@ function App() {
       [e.target.name]: (e.target as HTMLInputElement).value,
     }));
   }
+  const alert = useAlert();
 
   const submitForm = (event: FormEvent) => {
     event.preventDefault();
     console.log(inputFields);
     setErrors(validateInput(inputFields));
+    alert.show(`Form submitted successfully!`);
+    // const alert = useAlert();
   };
   return (
     <>
@@ -90,7 +98,7 @@ function App() {
                     id="firstname"
                     value={inputFields.firstname}
                     onChange={handleChange}
-                    className="border border-Neutral-Grey-medium rounded-md h-12 w-full mt-3 font-karla text-Neutral-Grey-darker pl-6  hover:border-Green-medium"
+                    className="border border-Neutral-Grey-medium rounded-md h-12 w-full mt-3 font-karla text-Neutral-Grey-darker pl-6  hover:border-Green-medium focus:outline-none"
                     style={{
                       // @ts-ignore
                       border: errors.firstname
@@ -121,7 +129,7 @@ function App() {
                     id="lastname"
                     value={inputFields.lastname}
                     onChange={handleChange}
-                    className="border border-Neutral-Grey-medium rounded-md h-12 w-full mt-3 font-karla text-Neutral-Grey-darker pl-6 hover:border-Green-medium"
+                    className="border border-Neutral-Grey-medium rounded-md h-12 w-full mt-3 font-karla text-Neutral-Grey-darker pl-6 hover:border-Green-medium focus:outline-none"
                     style={{
                       // @ts-ignore
                       border: errors.lastname
@@ -151,7 +159,7 @@ function App() {
                   id="email"
                   value={inputFields.email}
                   onChange={handleChange}
-                  className="border border-Neutral-Grey-medium rounded-md h-12 w-full mt-3 font-karla text-Neutral-Grey-darker pl-6 hover:border-Green-medium"
+                  className="border border-Neutral-Grey-medium rounded-md h-12 w-full mt-3 font-karla text-Neutral-Grey-darker pl-6 hover:border-Green-medium focus:outline-none"
                   style={{
                     // @ts-ignore
                     border: errors.email ? "1px solid hsl(0, 66%, 54%)" : null,
@@ -171,20 +179,37 @@ function App() {
                 </label>
                 <br />
                 <div className="flex md:flex-row flex-col justify-start md:justify-between space-x-0 md:space-x-6 space-y-3 md:space-y-0 mt-3 ">
-                  <div className="w-full md:w-1/2 relative border border-Neutral-Grey-medium rounded-md h-12 hover:border-Green-medium">
+                  <div
+                    className={`${
+                      inputFields.queryType === "general enquiry"
+                        ? "w-full md:w-1/2 relative bg-Green-lighter border border-Green-medium rounded-md h-12 hover:border-Green-medium"
+                        : "w-full md:w-1/2 relative border border-Neutral-Grey-medium rounded-md h-12 hover:border-Green-medium"
+                    }`}
+                  >
                     <input
                       type="radio"
                       name="queryType"
                       id=""
                       value="general enquiry"
                       checked={inputFields.queryType === "general enquiry"}
-                      className="absolute left-6 bottom-3 h-5 w-5 appearance-none border border-Neutral-Grey-medium rounded-full text-Neutral-Grey-medium hover:border-Green-medium"
+                      className={`${
+                        inputFields.queryType === "general enquiry"
+                          ? "absolute left-6 bottom-3 h-5 w-5 appearance-none border border-Green-medium rounded-full text-Neutral-Grey-medium hover:border-Green-medium"
+                          : "absolute left-6 bottom-3 w-5 h-5 "
+                      }`}
                       onChange={handleChange}
                       style={{
                         //@ts-ignore
                         border: "ipx solid hsl(0, 66%, 54%) ",
                       }}
                     />
+                    <div
+                      className={`${
+                        inputFields.queryType === "general enquiry"
+                          ? "absolute left-7 h-3 w-3 top-[18px] rounded-full bg-Green-medium"
+                          : null
+                      }`}
+                    ></div>
                     <label
                       htmlFor="general enquiry"
                       className="absolute left-14 top-2.5 font-karla text-lg text-Neutral-Grey-darker"
@@ -192,15 +217,37 @@ function App() {
                       General Enquiry
                     </label>
                   </div>
-                  <div className=" w-full md:w-1/2 relative border border-Neutral-Grey-medium rounded-md h-12 hover:border-Green-medium">
+                  <div
+                    className={`${
+                      inputFields.queryType === "support request"
+                        ? "w-full md:w-1/2 relative bg-Green-lighter border border-Green-medium rounded-md h-12 hover:border-Green-medium"
+                        : "w-full md:w-1/2 relative border border-Neutral-Grey-medium rounded-md h-12 hover:border-Green-medium"
+                    }`}
+                  >
                     <input
                       type="radio"
                       name="queryType"
                       value="support request"
                       id=""
                       checked={inputFields.queryType === "support request"}
-                      className="absolute left-6 bottom-3 h-5 w-5 appearance-none border border-Neutral-Grey-medium  rounded-full  font-karla hover:border-Green-medium"
+                      className={`${
+                        inputFields.queryType === "support request"
+                          ? "absolute left-6 bottom-3 h-5 w-5  appearance-none border border-Green-medium  rounded-full  font-karla hover:border-Green-medium"
+                          : "absolute left-6 bottom-3 h-5 w-5"
+                      }`}
+                      onChange={handleChange}
+                      style={{
+                        //@ts-ignore
+                        border: "ipx solid hsl(0, 66%, 54%) ",
+                      }}
                     />
+                    <div
+                      className={`${
+                        inputFields.queryType === "support request"
+                          ? "absolute left-7 h-3 w-3 top-[18px] rounded-full bg-Green-medium"
+                          : null
+                      }`}
+                    ></div>
                     <label
                       htmlFor="support request"
                       className="absolute left-14 top-2.5 font-karla text-lg text-Neutral-Grey-darker"
@@ -229,7 +276,7 @@ function App() {
                   id="message"
                   value={inputFields.message}
                   onChange={handleChange}
-                  className="border border-Neutral-Grey-medium rounded-md h-56 md:h-24 w-full mt-3 font-karla text-Neutral-Grey-darker pl-6 resize-none hover:border-Green-medium"
+                  className="border border-Neutral-Grey-medium rounded-md h-56 md:h-24 w-full mt-3 font-karla text-Neutral-Grey-darker pl-6 resize-none hover:border-Green-medium focus:outline-none"
                   style={{
                     // @ts-ignore
                     border: errors.message
@@ -248,13 +295,30 @@ function App() {
                   type="checkbox"
                   name="consent"
                   id=""
-                  className=""
+                  className={`${
+                    inputFields.consent
+                      ? "appearance-none border border-Green-medium bg-Green-medium h-4 w-4 rounded-sm"
+                      : ""
+                  }`}
                   checked={inputFields.consent}
                   onChange={handleChange}
                 />
+                <div>
+                  <FaCheck
+                    className={`${
+                      inputFields.consent
+                        ? "absolute top-[5px] h-[10px] w-[10px] left-[3px] text-Neutral-White  "
+                        : "hidden"
+                    }`}
+                  />
+                </div>
                 <label
                   htmlFor="consent"
-                  className="text-Neutral-Grey-darker font-karla left-6 absolute "
+                  className={`${
+                    inputFields.consent
+                      ? "absolute -top-[2px] text-Green-medium left-6"
+                      : "text-Neutral-Grey-darker font-karla left-6 absolute top-0 "
+                  }`}
                 >
                   I consent to being contacted by the team{" "}
                   <sup className="text-Green-medium pl-[4px] font-karla">*</sup>
