@@ -68,7 +68,11 @@ function App() {
     event.preventDefault();
     console.log(inputFields);
     setErrors(validateInput(inputFields));
-    alert.show(`Form submitted successfully!`);
+    alert.show(
+      <div className="text-Neutral-White font-karla text-base  lowercase">
+        Form submitted successfully!
+      </div>
+    );
     // const alert = useAlert();
   };
   return (
@@ -317,7 +321,7 @@ function App() {
                   className={`${
                     inputFields.consent
                       ? "absolute -top-[2px] text-Green-medium left-6"
-                      : "text-Neutral-Grey-darker font-karla left-6 absolute top-0 "
+                      : "text-Neutral-Grey-darker font-karla left-6 absolute top-0  hover:text-Green-medium"
                   }`}
                 >
                   I consent to being contacted by the team{" "}
